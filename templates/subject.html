@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+
+{% block title %}{% endblock title %}
+
+
+{% block content %}
+<head>
+        <style>
+            h1{
+                text-align: center;
+            }
+            
+            .subject_divs {
+                margin-top: 50px;
+                width: 50%;
+                float: left;
+                text-align: center;
+            }
+
+            .buttons{
+                display: inline;
+                margin: 10px;
+            }
+            
+            .labels {
+                margin-top: 10px;
+            }
+
+            .inputs{
+                width: 40%;
+            }
+        </style>
+</head>
+
+
+<div class="container ">
+    
+    <div class="subject_divs" id="subject_div_one">
+        <h1>Welcome to {{ subject }} quiz!</h1> <br>
+
+        {% if user.is_authenticated %}
+            <form method='' class="buttons" action="{% url 'quiz' subject.pk %}">
+                {% csrf_token %}
+                <!-- <input type="submit" name="" value=""> -->
+                <button type="submit" class="btn btn-outline-success">Start Solving</button>
+            </form>
+        {% else %}
+            <p>You need to <a href="{% url 'login' %}">log in</a> to start the quiz!</p>
+        {% endif %}
+
+        {% if user.is_staff %}
+            <form method='' class="buttons" action="{% url 'subject_edit' subject.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-info">Edit Quiz</button>
+            </form>
+
+            <form method='' class="buttons" action="{% url 'subject_delete' subject.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">Delete Quiz</button>
+            </form>
+        {% endif %}
+        
+               
+        
+    </div>
+
+    <div class="subject_divs" id="subject_div_two" style="padding-left: 20%;">
+        <h4 style="margin-top: 10%;">Results:</h4>
+        <div style="padding-left: 10%;">
+            <ol style="text-align: left;">
+                {% for result in results %}
+                    <li>{{ result.user }} | {{ result.percent }}%</li>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        
+    </div>
+
+
+    
+
+{% endblock content %}

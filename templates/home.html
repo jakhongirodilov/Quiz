@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+<head>
+    <style>
+        .row{
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .col-sm-3 {
+            margin: 20px; /* Add some margin between the cards */
+            
+        }
+    </style>
+</head>
+
+<div class="row">
+    {% for subject in subjects %}
+        <div class="col-sm-3">
+            <a href="{% url 'subject' subject.pk %}" style="text-decoration: none; color: black;">
+                <div class="card" style="text-align: center; width: 250px; border-color: #05386b;" >
+                    <div class="card-body">
+                        {{ subject }}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'subject' subject.pk %}" style="text-decoration: none; ">Quiz</a>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
